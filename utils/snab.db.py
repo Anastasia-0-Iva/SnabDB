@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QPushButton, QVBoxLayout, QWidget, QComboBox, QHBoxLayout, QMenu, QUndoStack, QMessageBox, QFileDialog, QShortcut
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QPushButton, QVBoxLayout, QWidget, QComboBox, QHBoxLayout, QMenu, QUndoStack, QMessageBox, QFileDialog, QShortcut, QPlainTextEdit, QStyledItemDelegate
 from PyQt5.QtGui import QDesktopServices, QKeySequence
 from PyQt5.QtCore import QUrl, Qt
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
@@ -30,6 +30,11 @@ class Database(QMainWindow):
         self.back = QUndoStack()  # Функция отмены действия
         undo_shortcut = QShortcut(QKeySequence("Ctrl+Z"), self)  # Коннект с кнопками
         undo_shortcut.activated.connect(self.cancellation) # Привязка действий к Ctrl+Z
+
+        # 'Enter' для переноса строк
+        delegate = NewParagraph()
+        for col in [0, 2, 6, 8]:  # все текстовые колонки
+            self.table.setItemDelegateForColumn(col, delegate)
 
     def data(self):
         '''Создание новой строки + дата и время подгружаются автоматически'''
@@ -476,6 +481,24 @@ class Database(QMainWindow):
         if col == 5:
             combo.currentIndexChanged.connect(self.colour) # Обновление цвета для колонки "Статус"
         combo.currentIndexChanged.connect(self.update_filters) # Обновление фильтров (Кроме "Статус")
+
+class NewParagraph(QStyledItemDelegate): # НАЗВАНИЯ МЕНЯТЬ НЕЛЬЗЯ!
+    '''Привязка кнопки "Enter" к переносу текста на следующий абзац'''
+    def createEditor(self, parent, option, index):
+        editor = QPlainTextEdit(parent)
+        editor.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        editor.setFixedHeight(60)
+        return editor
+
+    def setEditorData(self, editor, index):
+        value = index.data(Qt.DisplayRole) or ""
+        editor.setPlainText(value)
+
+    def setModelData(self, editor, model, index):
+        value = editor.toPlainText()
+        model.setData(index, value)
+
+
 
 
 
