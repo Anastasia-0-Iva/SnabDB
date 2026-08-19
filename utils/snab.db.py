@@ -503,8 +503,8 @@ class NewParagraph(QStyledItemDelegate): # НАЗВАНИЯ МЕНЯТЬ НЕЛ�
 
 
 
-if __name__ == "__main__":
-    app = QApplication([])
-    window = Database()
-    window.show()
-    app.exec()
+#if __name__ == "__main__":
+#    app = QApplication([])
+#    window = Database()
+#    window.show()
+#    app.exec()
