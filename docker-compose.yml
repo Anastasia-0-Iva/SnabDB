@@ -3,32 +3,16 @@ version: '3.8'
 services:
   db:
     image: postgres:14
-    container_name: snabdb_postgres
+    container_name: ${POSTGRES_CONTAINER}
     environment:
-      POSTGRES_USER: snab_user
-      POSTGRES_PASSWORD: snab_password
-      POSTGRES_DB: snabdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init:/docker-entrypoint-initdb.d
-    restart: always
-
-
-  app:
-    build: .
-    container_name: snabdb_app
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_NAME: snabdb
-      DB_USER: snab_user
-      DB_PASSWORD: snab_password
-      DB_PORT: 5432
-    stdin_open: true
-    tty: true
     restart: always
 
 volumes:
