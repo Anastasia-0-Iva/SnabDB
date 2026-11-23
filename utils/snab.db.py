@@ -1,5 +1,5 @@
 import os
-os.add_dll_directory(r"C:\Program Files\PostgreSQL\16\bin")
+os.add_dll_directory(r"C:\Program Files\PostgreSQL\17\bin")
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QPushButton, QVBoxLayout, QWidget, QComboBox, QHBoxLayout, QMenu, QUndoStack, QMessageBox, QFileDialog, QShortcut, QPlainTextEdit, QStyledItemDelegate
 from PyQt5.QtGui import QDesktopServices, QKeySequence
 from PyQt5.QtCore import QUrl, Qt, QPoint
